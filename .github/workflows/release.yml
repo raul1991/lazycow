@@ -12,5 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - uses: oleksiyrudenko/gha-git-credentials@v2-latest
+      with:
+        token: '${{ secrets.GITHUB_TOKEN }}'
     - name: Perform a release
       run: chmod +x ./scripts/release.sh && ./scripts/release.sh
