@@ -1,0 +1,16 @@
+name: Upload to transfer.sh
+
+# only trigger it when a pull request is closed
+on:
+  pull_request:
+    types: [closed]
+jobs:
+  build:
+    # only run the steps if pull_request is merged.
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Perform a release
+      run: chmod +x ./scripts/release.sh && ./scripts/release.sh

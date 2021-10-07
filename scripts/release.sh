@@ -46,9 +46,9 @@ do_release() {
 	# replace version
 	sed -i.bak 's/version .*/version '\"${tag}\"'/g' lazy-cow.rb && rm -f lazy-cow.rb.bak
 	# do a commit and push
-	_push_code $tag
+	#_push_code $tag
 	# Surprise!
 	(/usr/games/fortune | /usr/games/cowsay) || true
 }
-[[ $OSTYPE == 'darwin'* ]] && echo "I wish this was a linux system... :(" || apt-get install fortune cowsay
+[[ $OSTYPE == 'darwin'* ]] && echo "I wish this was a linux system... :(" || sudo apt-get install fortune cowsay
 do_release
