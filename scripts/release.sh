@@ -41,13 +41,14 @@ do_release() {
 	local url=$(_upload_file ${tar_file})
 	# modify version and url for the release
 	# replace url
+	# read about the hack here - https://stackoverflow.com/a/44864004/1270865
 	sed -i.bak 's#url .*#url '\"${url}\"'#g' lazy-cow.rb && rm -f lazy-cow.rb.bak
 	# replace version
-	sed -i.bak 's/version .*/version '\"${tag}\"'/g' lazy-cow.rb && rm -f laz-cow.rb.bak
+	sed -i.bak 's/version .*/version '\"${tag}\"'/g' lazy-cow.rb && rm -f lazy-cow.rb.bak
 	# do a commit and push
 	_push_code $tag
 	# Surprise!
 	(/usr/games/fortune | /usr/games/cowsay) || true
 }
-
+[[ $OSTYPE == 'darwin'* ]] && echo "I wish this was a linux system... :(" || apt-get install fortune cowsay
 do_release
