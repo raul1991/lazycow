@@ -56,8 +56,9 @@ Run `lazycow --moo` in your terminal. It should print the welcome text after suc
 
 # Authors
 
-[Rahul Bawa] (https://github.com/raul1991)
-[Piyush Chabbra](https://github.com/piyushchabbra)
+[Rahul Bawa](https://github.com/raul1991)
+
+[Piyush Chabbra](https://github.com/piyushchhabra)
 
 # Want to contribute ?
 We are looking forward for more and more teams getting onboarded to lazycow for automating their developer setups. 
