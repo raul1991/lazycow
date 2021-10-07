@@ -41,9 +41,9 @@ do_release() {
 	local url=$(_upload_file ${tar_file})
 	# modify version and url for the release
 	# replace url
-	sed -i 's#url .*#url '\"${url}\"'#g' lazy-cow.rb
+	sed -i.bak 's#url .*#url '\"${url}\"'#g' lazy-cow.rb && rm -f lazy-cow.rb.bak
 	# replace version
-	sed -i 's/version .*/version '\"${tag}\"'/g' lazy-cow.rb
+	sed -i.bak 's/version .*/version '\"${tag}\"'/g' lazy-cow.rb && rm -f laz-cow.rb.bak
 	# do a commit and push
 	_push_code $tag
 	# Surprise!
