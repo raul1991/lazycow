@@ -1,10 +1,13 @@
 name: Upload to transfer.sh
 
-on: [push]
-
+# only trigger it when a pull request is closed
+on:
+  pull_request:
+    types: [closed]
 jobs:
   build:
-
+    # only run the steps if pull_request is merged.
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
