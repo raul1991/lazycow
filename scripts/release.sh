@@ -46,7 +46,7 @@ do_release() {
 	# replace version
 	sed -i.bak 's/version .*/version '\"${tag}\"'/g' lazy-cow.rb && rm -f lazy-cow.rb.bak
 	# do a commit and push
-	#_push_code $tag
+	_push_code $tag
 	# Surprise!
 	(/usr/games/fortune | /usr/games/cowsay) || true
 }
