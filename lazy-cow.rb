@@ -1,11 +1,11 @@
 class LazyCow < Formula
   desc "Install custom dev setups with one command"
   homepage ""
-  url "https://transfer.sh/tOeQFc/lazy-cow-0.0.10-bin.tar.gz"
+  url "https://transfer.sh/FTFbam/lazy-cow-0.0.11-bin.tar.gz"
   mirror ""
   sha256 ""
   license ""
-  version "0.0.10"
+  version "0.0.11"
   depends_on "cowsay"
   depends_on "lolcat"
   depends_on "boxes"
