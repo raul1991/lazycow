@@ -48,11 +48,11 @@ Run `lazycow --moo` in your terminal. It should print the welcome text after suc
 
 #### search:
 
-`lazycow --search cst`
+`lazycow --search dev-tools`
 
 #### use:
 
-`lazycow setup-cst`
+`lazycow setup-dev-tools`
 
 # Authors
 
