@@ -36,7 +36,7 @@ Uses brew internally so its sleek in design and easy to install.
 
 #### install:
 
-`brew tap raul1991/lazycow git@bitbucket.org:raul1991/lazycow.git; brew install lazy-cow`
+`brew tap raul1991/lazycow git@github.com:raul1991/lazycow.git; brew install lazy-cow`
 
 #### verify:
 
@@ -54,6 +54,10 @@ Run `lazycow --moo` in your terminal. It should print the welcome text after suc
 
 `lazycow setup-cst`
 
+# Authors
+
+[Rahul Bawa] (https://github.com/raul1991)
+[Piyush Chabbra](https://github.com/piyushchabbra)
 
 # Want to contribute ?
 We are looking forward for more and more teams getting onboarded to lazycow for automating their developer setups. 
