@@ -1,0 +1,164 @@
+#!/bin/bash
+
+# exit when ctrl+c is pressed
+trap "exit" INT
+set -e # break if anything fails
+# env variables, export them to change their values
+SSH_PATH=${1:-"$HOME/.ssh"}
+
+# constants
+PKEY="lazycow-ssh-$$"
+
+function log() {
+  echo "[MOO] $@"
+}
+
+installJdk() {
+  java -version >/dev/null
+  if [[ $? -eq 1 ]]; then
+    brew install openjdk@11
+    brew install openjdk@8
+  else
+    log "Jdk Already installed $(java -version)"
+  fi
+}
+
+downloadBrew() {
+  brew --version >/dev/null
+  if [[ $? -eq 1 ]]; then
+    log "Downloading Brew...."
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  else
+    log "Already installed"
+  fi
+}
+
+installBuildTools() {
+  log "Downloading yarn npm maven git via brew"
+  brew install git postgresql python3 jenv npm
+  npm install --global yarn
+}
+
+setupSshKey() {
+  read -r -p "Do you want to install ssh keys ? (y/n) : " answer
+  if [[ ${answer} == "y" ]]; then
+    log "Generating ssh key pair. Give no password"
+    ssh-keygen -t rsa -C lazycow-generated-key -f "${SSH_PATH}/${PKEY}"
+    clear
+    sleep 2
+    cat "${SSH_PATH}/${PKEY}.pub"
+  fi
+}
+
+installNvm() {
+  log "Setting it up in your ~/.bash_profile file"
+  if [[ -f ~/.bash_profile ]]; then
+    log "Setting up in the existing file (~/.bash_profile)"
+  else
+    touch ~/.bash_profile
+  fi
+  log "You might need to manage multiple node envs - Installing nvm for that"
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+  log "Wait... Updating your node version to the latest one"
+  source ~/.bash_profile && nvm install --lts || true
+}
+
+configureGit() {
+  echo "Checking if git is installed or not ?"
+  git --version >/dev/null
+  if [[ $? -eq 1 ]]; then
+    log "Installing it"
+    brew install git
+    log "Git wasn't installed properly. Debug it on your own :o"
+    log "Setting up git"
+    read -r -p "What's your full name ?" first_name
+    git config --global user.name "${first_name}"
+    read -r -p "What's your email ?" email
+    git config --global user.email "${email}"
+    git config --global push.default simple
+    git config --global core.autocrlf input
+    log "Feel free to edit your .git/config in case some information is incorrect"
+  else
+    log "Git already installed $(git --version)"
+  fi
+}
+
+downloadDocker() {
+  docker --version >/dev/null
+  if [[ $? -eq 1 ]]; then
+    brew install --cask docker
+  else
+    log " Docker already installed"
+  fi
+}
+
+postman() {
+  log "Installing ${FUNCNAME[0]} if not installed already."
+  brew list postman && (echo "postman already exists") || brew install --cask postman
+}
+
+dump() {
+  local installs='
+  > Sets up the ssh key
+  > Install the jdk
+  > Download the Brew
+  > Installs the Build tools
+  > Installs the Atlas cli
+  > Installs the Atlas plugins
+  > Installs the nvm
+  > Configures the git
+  > Downloads the docker
+  > Downloads postman ui
+  '
+  echo -e "This bundle does the following\n ${installs}" | boxes -d parchment
+}
+
+help() {
+  local help='
+    >>>> Want to install everything ?
+
+    lazycow setup-cst --all
+
+    >>>> Want to see what it does ?
+
+    lazycow setup-cst --dump
+  '
+  echo "${help}" | lolcat -f | boxes -d parchment
+}
+
+install_everything() {
+
+  setupSshKey
+  installJdk
+  downloadBrew
+  installBuildTools
+  installNvm
+  configureGit
+  downloadDocker
+  postman
+}
+
+parseArgs() {
+  local first_arg="$1"
+  shift
+  case ${first_arg} in
+  "--help"|"-h")
+      help
+      ;;
+  "--dump"|"-d")
+      dump
+      ;;
+  "--all"|"-a")
+      install_everything
+      echo "All done. Let's all say Moooooooo!" | cowsay | lolcat -f
+      ;;
+  esac
+
+}
+
+main_cmd=${1:-"--help"} # if wrong one is specified, we show the help menu
+if [[ "${main_cmd}" == "--help" || "${main_cmd}" == "-h" ]];then
+  help
+else
+  parseArgs "$@"
+fi

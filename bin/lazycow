@@ -1,0 +1,98 @@
+#!/bin/bash
+
+bold=$(tput bold)
+normal=$(tput sgr0)
+start_underline=$(tput smul)
+end_underline=$(tput rmul)
+DEBUG="false"
+moo() {
+    echo "Hey there 👋 !! This is LazyCow." 
+    echo "I am here to help you in setting up your dev environment quickly so that we can build cool things together
+
+                ^__^
+                (oo)\_______
+                (__)\       )\/\/
+                    ||----w |
+                    ||     ||"
+    echo ""
+    echo "type ${bold}'lazycow --search <bundle-name>'${normal} to search for available bundles."
+    echo ""
+    echo "${bold}Bundles are basically scripts which are provided by other developers/teams to automate setting up dev environment${normal}"
+}
+
+run() {
+    local main_cmd="$1"
+    shift
+    which lazycow-${main_cmd} >/dev/null
+    if [[ $? -eq 1 ]];then
+      echo "No such bundle exists."
+    else
+      if [[ ${DEBUG} == "false" ]];then 
+        lazycow-${main_cmd} "$@"
+      else
+        ./bin/lazycow-${main_cmd} "$@"
+      fi
+    fi
+}
+
+search() {
+  echo "Searching for - $@"
+  # using -l because all our scripts are installed as sym links under /usr/local/bin
+  find /usr/local/bin -type l -name "*$1*" | awk -F/ '{print $NF}' | grep -e "lazycow-.*" | sed -e 's/lazycow-//g' | xargs -I{} echo "{}  ===> lazycow {}" | boxes -d parchment | lolcat -f
+}
+
+: '
+Prints what a bundle installs or shows help text if no bundle is mentioned.
+'
+dump() {
+  local help='
+    Bad usage of '"${FUNCNAME[0]}"'
+    Usage:
+      lazycow <some-bundle> --dump
+  '
+  local first_arg="$1"
+  shift
+  if [[ -z ${first_arg} ]];then
+    echo "$help" | boxes -d unicornthink
+  else
+    find /usr/local/bin -name "lazycow-$first_arg.*" | head -n 1 | xargs -I{} bash -c "{} --dump" | boxes -d parchment | lolcat -f
+  fi
+}
+
+help() {
+    contributors='
+        Reach out to my dudes!
+        > by raising issues > https://github.com/raul1991/lazycow/issues .
+    '
+    echo "${contributors}" | boxes -d dog | lolcat -f
+}
+
+parseArgs() {
+  local first_arg="$1"
+  shift # skipping the main arg
+  case ${first_arg} in
+  "--help"|"-h")
+      help
+      ;;
+  "--dump"|"-d")
+      dump
+      ;;
+  "--moo"|"-m")
+      moo
+      ;;
+  "--search"|"-s")
+      search "$@"
+      ;;
+  *)
+      # a possible setup script name
+      run $first_arg $@
+      ;;
+  esac
+}
+
+main_cmd=${1:-"--moo"} # if wrong one is specified, we show the help menu
+if [[ "${main_cmd}" == "--moo" || "${main_cmd}" == "-m" ]];then
+  moo
+else
+  parseArgs "$@"
+fi

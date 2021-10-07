@@ -1,0 +1,76 @@
+#!/bin/bash
+set -e
+
+install_everything() {
+    which zsh >/dev/null
+    if [[ $? == 1 ]];then
+        # install zsh shell
+        brew install zsh
+
+        # install ohmyzsh for customizations
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+        # adding the syntax highlighting
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+        # adding the auto suggestions
+        git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+
+        # add plugins
+        sed -i 's/plugins=.*/plugins=(git colored-man-pages colorize pip python zsh-autosuggestions)/g' ~/.zshrc
+
+        # enforce changes
+        source ~/.zshrc
+
+        # ending node
+        echo "Everything installed properly. Don't take my word for it though." | cowsay -e "XX" | lolcat -f 
+
+    else
+        echo "Zsh already installed" | cowsay -e "OO" | lolcat -f 
+    fi
+}
+
+dump() {
+  local installs='
+  > Installs ZSH
+  > Adds syntax highlights on terminal for various commands.
+  '
+  echo -e "This bundle does the following \n ${installs}" | boxes -d parchment | lolcat -f
+}
+
+help() {
+  local help='
+    >>>> Want to install everything ?
+
+    lazycow dev-tools --all
+
+    >>>> Want to see what it does ?
+
+    lazycow dev-tools --dump
+  '
+  echo "${help}" | lolcat -f | boxes -d parchment
+}
+
+parseArgs() {
+  local first_arg="$1"
+  shift
+  case ${first_arg} in
+  "--help"|"-h")
+      help
+      ;;
+  "--dump"|"-d")
+      dump
+      ;;
+  "--all"|"-a")
+      install_everything
+      ;;
+  esac
+
+}
+
+main_cmd=${1:-"--help"} # if wrong one is specified, we show the help menu
+if [[ "${main_cmd}" == "--help" || "${main_cmd}" == "-h" ]];then
+  help
+else
+  parseArgs "$@"
+fi
