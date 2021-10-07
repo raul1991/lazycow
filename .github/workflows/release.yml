@@ -1,0 +1,13 @@
+name: Upload to transfer.sh
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Perform a release
+      run: chmod +x ./scripts/release.sh && ./scripts/release.sh
