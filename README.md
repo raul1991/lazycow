@@ -42,17 +42,17 @@ Uses brew internally so its sleek in design and easy to install.
 
 Run `lazycow --moo` in your terminal. It should print the welcome text after successful installation
 
-#### update:
+#### update lazycow:
 
 `brew tap --force-auto-update raul1991/lazycow; brew upgrade lazy-cow`
 
-#### search:
+#### search a bundle:
 
 `lazycow --search dev-tools`
 
 #### use:
 
-`lazycow setup-dev-tools`
+`lazycow dev-tools`
 
 # Authors
 
