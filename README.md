@@ -1,15 +1,8 @@
-# LazyCow #
+![This is an image](lazy-cow-logo.png)
 
-LazyCow is a one step destination to browse dev environment setups by developers across the globe.
-```
-            ^__^
-            (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-```
+LazyCow helps developers share their setups in form of shell scripts and lets other developers use them to setup their dev environment.
 
-# What the heck is this ?
+# Tell me more
 
 Its your first day at a company and you are already crying over the pandemic, virtual onboarding, pigeons shitting on your car and that you have no clue about your team. The shit gets real,when you have to setup your dev environment too! :disappointed:
 ```
@@ -22,15 +15,24 @@ Its your first day at a company and you are already crying over the pandemic, vi
                 ||----w |
                 ||     ||
 ```
+You can simply download this brew package, search your favorite software bundles and get set going!
+
+> Bundle: It is a script shared by other developers which when installed via lazycow installs softwares in your environment.
 
 # Benefit
 Let's get serious and see the benefits
 
-Over time, people have already written scripts to automate most of the setup. This tool can use them and let the newcomers breathe on their first day.
+Over time, people have already written scripts to automate most of the setup. This tool can let them share that script is best possible way with others.
 
 New scripts and updates can be fetched and updated too.
 
 Uses brew internally so its sleek in design and easy to install.
+
+# Why can't I use github gist ?
+
+- They need to manually queried
+- No way to standardise their usage and design.
+- No way to search for what you are looking for.
 
 # How to
 
