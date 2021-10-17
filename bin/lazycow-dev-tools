@@ -103,8 +103,6 @@ dump() {
   > Install the jdk
   > Download the Brew
   > Installs the Build tools
-  > Installs the Atlas cli
-  > Installs the Atlas plugins
   > Installs the nvm
   > Configures the git
   > Downloads the docker
