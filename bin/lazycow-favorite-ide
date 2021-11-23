@@ -1,0 +1,55 @@
+#!/bin/bash
+set -e
+
+install_everything() {
+    # Development tool casks
+    brew cask install --appdir="/Applications" sublime-text
+    brew cask install intellij-idea-ce
+    brew install --cask pycharm-ce
+}
+
+dump() {
+  local installs='
+  > Installs intellij (community edition)
+  > Installs sublime text editor
+  > Installs pycharm (community version)
+  '
+  echo -e "This bundle does the following \n ${installs}" | boxes -d parchment | lolcat -f
+}
+
+help() {
+  local help='
+    >>>> Want to install everything ?
+
+    lazycow favorite-ide --all
+
+    >>>> Want to see what it does ?
+
+    lazycow favorite-ide --dump
+  '
+  echo "${help}" | lolcat -f | boxes -d parchment
+}
+
+parseArgs() {
+  local first_arg="$1"
+  shift
+  case ${first_arg} in
+  "--help"|"-h")
+      help
+      ;;
+  "--dump"|"-d")
+      dump
+      ;;
+  "--all"|"-a")
+      install_everything
+      ;;
+  esac
+
+}
+
+main_cmd=${1:-"--help"} # if wrong one is specified, we show the help menu
+if [[ "${main_cmd}" == "--help" || "${main_cmd}" == "-h" ]];then
+  help
+else
+  parseArgs "$@"
+fi
