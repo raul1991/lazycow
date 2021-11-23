@@ -14,23 +14,17 @@ function log() {
 }
 
 installJdk() {
-  java -version >/dev/null
-  if [[ $? -eq 1 ]]; then
+  java -version >/dev/null || {
     brew install openjdk@11
     brew install openjdk@8
-  else
-    log "Jdk Already installed $(java -version)"
-  fi
+  } && log "Jdk Already installed $(java -version)"
 }
 
 downloadBrew() {
-  brew --version >/dev/null
-  if [[ $? -eq 1 ]]; then
+  brew --version >/dev/null || {
     log "Downloading Brew...."
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  else
-    log "Already installed"
-  fi
+  } && log "Already installed"
 }
 
 installBuildTools() {
@@ -65,31 +59,24 @@ installNvm() {
 
 configureGit() {
   echo "Checking if git is installed or not ?"
-  git --version >/dev/null
-  if [[ $? -eq 1 ]]; then
+  git --version >/dev/null || {
     log "Installing it"
     brew install git
     log "Git wasn't installed properly. Debug it on your own :o"
     log "Setting up git"
     read -r -p "What's your full name ?" first_name
     git config --global user.name "${first_name}"
-    read -r -p "What's your email ?" email
-    git config --global user.email "${email}"
+    git config --global user.email "$USER@domain.com"
     git config --global push.default simple
     git config --global core.autocrlf input
     log "Feel free to edit your .git/config in case some information is incorrect"
-  else
-    log "Git already installed $(git --version)"
-  fi
+  } && log "Git already installed $(git --version)"
 }
 
 downloadDocker() {
-  docker --version >/dev/null
-  if [[ $? -eq 1 ]]; then
+  docker --version >/dev/null || {
     brew install --cask docker
-  else
-    log " Docker already installed"
-  fi
+  } && log " Docker already installed"
 }
 
 postman() {
