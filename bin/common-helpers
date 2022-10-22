@@ -1,0 +1,16 @@
+# icons
+ICON_ERROR=❌
+ICON_PENDING=🟡
+ICON_BOOLEAN=✅
+ICON_CLAP=👏
+ICON_UNCLAP=👎
+ICON_POINT=👉
+
+# moo logger
+function log() {
+    echo -e "[MOO] $@"
+}
+
+function log_error() {
+    echo -e "${ICON_ERROR} [MOO] $@"
+}

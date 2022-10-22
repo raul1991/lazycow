@@ -1,6 +1,19 @@
 #!/bin/bash
 set -e
 
+root_dir=$(git rev-parse --show-toplevel)
+
+# if in ci disable the below things as brew won't be available untill we have brew docker setup
+if [[ $CI == 0 ]];then
+  FORMULA_VERSION=$(brew list lazy-cow --versions | awk '{print $2}')
+  CELLAR_PATH=$(brew --cellar lazy-cow)
+  KEG_PREFIX_PATH="$CELLAR_PATH/$FORMULA_VERSION/libexec"
+  source $KEG_PREFIX_PATH/bin/common-helpers
+else
+  echo "Running in CI"
+  source $root_dir/bin/common-helpers
+fi
+
 install_everything() {
     which zsh >/dev/null
     if [[ $? == 1 ]];then
@@ -32,19 +45,19 @@ install_everything() {
 
 dump() {
   local installs='
-  > Installs ZSH
-  > Adds syntax highlights on terminal for various commands.
+  '"$ICON_POINT"' Installs ZSH
+  '"$ICON_POINT"' Adds syntax highlights on terminal for various commands.
   '
   echo -e "This bundle does the following \n ${installs}" | boxes -d parchment | lolcat -f
 }
 
 help() {
   local help='
-    >>>> Want to install everything ?
+    '"$ICON_POINT"' Want to install everything ?
 
     lazycow dev-tools --all
 
-    >>>> Want to see what it does ?
+    '"$ICON_POINT"' Want to see what it does ?
 
     lazycow dev-tools --dump
   '

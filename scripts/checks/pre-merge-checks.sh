@@ -7,7 +7,7 @@ expected_perms=700
 cd $root_dir/bin
 function init() {
     echo "Running pre-merge checks on all scripts"
-    for curr_script_name in *;
+    for curr_script_name in lazycow*;
     do
         echo "Found script $curr_script_name"
         perform_filename_check $curr_script_name
