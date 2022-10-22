@@ -1,16 +1,11 @@
 name: Pre-merge sanity checks
 
-# only trigger it when a pull request is closed
+# only trigger it when a pull request is opened
 on:
   push:
   pull_request:
-    types:
-      - opened
-    branches:
-      - 'master'
-    paths:
-      - 'bin/**'
-    
+    branches-ignore:
+      - main
 jobs:
   build:
     runs-on: ubuntu-22.04
