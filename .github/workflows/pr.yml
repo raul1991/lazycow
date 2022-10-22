@@ -1,11 +1,15 @@
-name: Running Pre-merge checks
+name: Pre-merge sanity checks
 
 # only trigger it when a pull request is closed
 on:
   push:
   pull_request:
+    types:
+      - opened
     branches:
-      - master
+      - 'master'
+    paths:
+      - 'bin/**'
     
 jobs:
   build:
@@ -14,4 +18,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Running checks
         run: |
+          sudo apt-get install -y lolcat boxes
           chmod +x ./scripts/pre-merge-checks.sh && ./scripts/pre-merge-checks.sh
+          chmod +x ./scripts/runtime-checks.sh && ./scripts/runtime-checks.sh
