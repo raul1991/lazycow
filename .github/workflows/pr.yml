@@ -14,5 +14,5 @@ jobs:
       - name: Running checks
         run: |
           sudo apt-get install -y lolcat boxes
-          chmod +x ./scripts/pre-merge-checks.sh && ./scripts/pre-merge-checks.sh
-          chmod +x ./scripts/runtime-checks.sh && ./scripts/runtime-checks.sh
+          chmod +x ./scripts/checks/pre-merge-checks.sh && ./scripts/checks/pre-merge-checks.sh
+          chmod +x ./scripts/checks/runtime-checks.sh && ./scripts/checks/runtime-checks.sh
