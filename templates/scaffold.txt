@@ -1,8 +1,10 @@
 #!/bin/bash
-set -e
 
-root_dir=$(git rev-parse --show-toplevel)
+# exit when ctrl+c is pressed
+trap "exit" INT
+set -e # break if anything fails
 
+# import common helpers
 # if in ci disable the below things as brew won't be available untill we have brew docker setup
 if [[ $CI == 0 ]];then
   FORMULA_VERSION=$(brew list lazy-cow --versions | awk '{print $2}')
@@ -11,36 +13,32 @@ if [[ $CI == 0 ]];then
   source $KEG_PREFIX_PATH/bin/common-helpers
 else
   echo "Running in CI"
-  source $root_dir/bin/common-helpers
+  source ./common-helpers
 fi
-
-install_everything() {
-    # Development tool casks
-    brew cask install --appdir="/Applications" sublime-text
-    brew cask install intellij-idea-ce
-    brew install --cask pycharm-ce
-}
 
 dump() {
   local installs='
-  '"$ICON_POINT"' Install IntelliJ
-  '"$ICON_POINT"' Installs sublime text editor
-  '"$ICON_POINT"' Installs pycharm (community version)
+  '"$ICON_POINT"' Thing 1
+  '"$ICON_POINT"' Thing 2
   '
-  echo -e "This bundle does the following \n ${installs}" | boxes -d parchment | lolcat -f
+  echo "This bundle does the following\n ${installs}" | boxes -d parchment
 }
 
 help() {
   local help='
     '"$ICON_POINT"' Want to install everything ?
 
-    lazycow favorite-ide --all
+    lazycow #SCRIPT-NAME# --all
 
     '"$ICON_POINT"' Want to see what it does ?
 
-    lazycow favorite-ide --dump
+    lazycow #SCRIPT-NAME# --dump
   '
   echo "${help}" | lolcat -f | boxes -d parchment
+}
+
+install_everything() {
+  log "Go big bang here and install everything"
 }
 
 parseArgs() {

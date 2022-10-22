@@ -5,19 +5,25 @@ trap "exit" INT
 set -e # break if anything fails
 # env variables, export them to change their values
 SSH_PATH=${1:-"$HOME/.ssh"}
+root_dir=$(git rev-parse --show-toplevel)
 
-# constants
-PKEY="lazycow-ssh-$$"
-
-function log() {
-  echo "[MOO] $@"
-}
+# if in ci disable the below things as brew won't be available untill we have brew docker setup
+if [[ $CI == 0 ]];then
+  FORMULA_VERSION=$(brew list lazy-cow --versions | awk '{print $2}')
+  CELLAR_PATH=$(brew --cellar lazy-cow)
+  KEG_PREFIX_PATH="$CELLAR_PATH/$FORMULA_VERSION/libexec"
+  source $KEG_PREFIX_PATH/bin/common-helpers
+else
+  echo "Running in CI"
+  source $root_dir/bin/common-helpers
+fi
 
 installJdk() {
-  java -version >/dev/null || {
-    brew install openjdk@11
-    brew install openjdk@8
-  } && log "Jdk Already installed $(java -version)"
+  # this still works but may stop in the future.
+  log "Installing jdk 8 and 11"
+  brew tap adoptopenjdk/openjdk
+  brew install --cask adoptopenjdk/openjdk/adoptopenjdk8 || true
+  brew install --cask adoptopenjdk/openjdk/adoptopenjdk11 || true
 }
 
 downloadBrew() {
@@ -29,7 +35,7 @@ downloadBrew() {
 
 installBuildTools() {
   log "Downloading yarn npm maven git via brew"
-  brew install git postgresql python3 jenv npm
+  brew install git postgresql python3 jenv npm maven
   npm install --global yarn
 }
 
@@ -86,27 +92,27 @@ postman() {
 
 dump() {
   local installs='
-  > Sets up the ssh key
-  > Install the jdk
-  > Download the Brew
-  > Installs the Build tools
-  > Installs the Atlas cli
-  > Installs the Atlas plugins
-  > Installs the nvm
-  > Configures the git
-  > Downloads the docker
-  > Downloads postman ui
+  '"$ICON_POINT"' Sets up the ssh key
+  '"$ICON_POINT"' Install the jdk
+  '"$ICON_POINT"' Download the Brew
+  '"$ICON_POINT"' Installs the Build tools
+  '"$ICON_POINT"' Installs the Atlas cli
+  '"$ICON_POINT"' Installs the Atlas plugins
+  '"$ICON_POINT"' Installs the nvm
+  '"$ICON_POINT"' Configures the git
+  '"$ICON_POINT"' Downloads the docker
+  '"$ICON_POINT"' Downloads postman ui
   '
   echo -e "This bundle does the following\n ${installs}" | boxes -d parchment
 }
 
 help() {
   local help='
-    >>>> Want to install everything ?
+    '"$ICON_POINT"' Want to install everything ?
 
     lazycow setup-cst --all
 
-    >>>> Want to see what it does ?
+    '"$ICON_POINT"' Want to see what it does ?
 
     lazycow setup-cst --dump
   '
