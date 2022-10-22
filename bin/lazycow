@@ -1,9 +1,6 @@
 #!/bin/bash
 
-bold=$(tput bold)
-normal=$(tput sgr0)
-start_underline=$(tput smul)
-end_underline=$(tput rmul)
+set -u
 DEBUG="false"
 moo() {
     echo "Hey there 👋 !! This is LazyCow." 
@@ -15,9 +12,9 @@ moo() {
                     ||----w |
                     ||     ||"
     echo ""
-    echo "type ${bold}'lazycow --search <bundle-name>'${normal} to search for available bundles."
+    echo "type 'lazycow --search <bundle-name>' to search for available bundles."
     echo ""
-    echo "${bold}Bundles are basically scripts which are provided by other developers/teams to automate setting up dev environment${normal}"
+    echo "Bundles are basically scripts which are provided by other developers/teams to automate setting up dev environment"
 }
 
 run() {
