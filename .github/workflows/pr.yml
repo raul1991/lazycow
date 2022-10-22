@@ -3,6 +3,8 @@ name: Pre-merge sanity checks
 # only trigger it when a pull request is opened
 on:
   push:
+    branches-ignore:
+      - main
   pull_request:
     branches-ignore:
       - main
