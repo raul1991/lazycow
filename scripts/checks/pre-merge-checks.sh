@@ -6,7 +6,7 @@ fail_counts=0
 expected_perms=700
 cd $root_dir/bin
 function init() {
-    echo "Running extension checks on all scripts"
+    echo "Running pre-merge checks on all scripts"
     for curr_script_name in *;
     do
         echo "Found script $curr_script_name"
