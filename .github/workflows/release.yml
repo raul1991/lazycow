@@ -12,22 +12,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Get release
-        id: get_release
-        uses: bruceadams/get-release@v1.2.3
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
       - name: Perform a release
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           chmod +x ./scripts/release.sh && ./scripts/release.sh
-      - name: Upload release binary
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./target/release/my-widget
-          asset_name: my-widget
-          asset_content_type: application/octet-stream
+      # - name: Upload release binary
+      #   uses: actions/upload-release-asset@v1.0.2
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
+      #   with:
+      #     upload_url: ${{ steps.get_release.outputs.upload_url }}
+      #     asset_path: ./target/release/my-widget
+      #     asset_name: my-widget
+      #     asset_content_type: application/octet-stream
