@@ -59,7 +59,7 @@ Run `lazycow --moo` in your terminal. It should print the welcome text after suc
 
 ## Want to contribute ?
 
-We are looking forward for more and more atlassian teams getting onboarded to lazycow for automating their developer setups.
+We are looking forward for more and more people getting onboarded to lazycow for automating their developer setups.
 
 Run the following command with your script name and we'll get you started.
 

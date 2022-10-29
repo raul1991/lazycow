@@ -96,8 +96,6 @@ dump() {
   '"$ICON_POINT"' Install the jdk
   '"$ICON_POINT"' Download the Brew
   '"$ICON_POINT"' Installs the Build tools
-  '"$ICON_POINT"' Installs the Atlas cli
-  '"$ICON_POINT"' Installs the Atlas plugins
   '"$ICON_POINT"' Installs the nvm
   '"$ICON_POINT"' Configures the git
   '"$ICON_POINT"' Downloads the docker
